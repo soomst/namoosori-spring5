@@ -13,8 +13,13 @@ public class ClubServiceLogic implements ClubService{
 
 	private ClubStore clubStore;
 
-	public ClubServiceLogic() {
-		this.clubStore = new ClubMapStore();
+	public ClubServiceLogic(ClubStore clubStore) {
+		// this.clubStore = new ClubMapStore(); : tight coupling
+
+		// ** IoC/DI
+		// ClubService가 사용되는 시점에 생성자에서 레퍼런스 하고 있는 
+		// ClubStore라는 id를 갖는 클래스를 주입할 수 있도록 bean에 등록함
+		this.clubStore = clubStore;
 	}
 
 	@Override
