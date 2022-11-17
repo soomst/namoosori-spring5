@@ -5,9 +5,15 @@
         http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
+        <!-- 1. clubStore, clubService를 bean으로 등록 -->
+        <bean id='clubStore' class="io.namoosori.travelclub.spring.store.mapstore.ClubMapStore"/>
+        <bean id='clubService' class="io.namoosori.travelclub.spring.service.logic.ClubServiceLogic">
+                <!-- 2.clubService를 bean으로 등록하면서 생성자의 파라미터로 
+                        clubStore의 id를 갖는 이 bean을 주입해 주겠다. -->
+                <constructor-arg ref="clubStore"/> 
+        </bean>
+
+
+
+
 </beans>
-
-
-
-
-
