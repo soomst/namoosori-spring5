@@ -10,6 +10,7 @@ import io.namoosori.travelclub.spring.service.sdo.TravelClubCdo;
 import io.namoosori.travelclub.spring.shared.NameValueList;
 import io.namoosori.travelclub.spring.store.ClubStore;
 import io.namoosori.travelclub.spring.store.mapstore.ClubMapStore;
+import io.namoosori.travelclub.spring.util.exception.NoSuchClubException;
 
 @Service("clubService")
 public class ClubServiceLogic implements ClubService{
@@ -35,26 +36,33 @@ public class ClubServiceLogic implements ClubService{
 
 	@Override
 	public TravelClub findClubById(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		return clubStore.retrieve(id);
 	}
 
 	@Override
 	public List<TravelClub> findClubsByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return clubStore.retrieveByName(name);
 	}
 
 	@Override
 	public void modify(String clubId, NameValueList nameValues) {
-		// TODO Auto-generated method stub
-		
+		TravelClub foundedClub = clubStore.retrieve(clubId);
+
+		if (foundedClub == null) {
+			throw new NoSuchClubException("No such club with id : "+ clubId);
+		}
+
+		foundedClub.modifyValues(nameValues);
+		clubStore.update(foundedClub);
 	}
 
 	@Override
 	public void remove(String clubId) {
-		// TODO Auto-generated method stub
-		
+		if (!clubStore.exists(clubId)) {
+			throw new NoSuchClubException("No such club with id : "+ clubId);
+		}
+
+		clubStore.delete(clubId);
 	}
 	
 }
