@@ -2,6 +2,8 @@ package io.namoosori.travelclub.spring.service.logic;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import io.namoosori.travelclub.spring.aggregate.club.TravelClub;
 import io.namoosori.travelclub.spring.service.ClubService;
 import io.namoosori.travelclub.spring.service.sdo.TravelClubCdo;
@@ -9,6 +11,7 @@ import io.namoosori.travelclub.spring.shared.NameValueList;
 import io.namoosori.travelclub.spring.store.ClubStore;
 import io.namoosori.travelclub.spring.store.mapstore.ClubMapStore;
 
+@Service("clubService")
 public class ClubServiceLogic implements ClubService{
 
 	private ClubStore clubStore;
@@ -24,8 +27,10 @@ public class ClubServiceLogic implements ClubService{
 
 	@Override
 	public String registerClub(TravelClubCdo club) {
-		clubStore.create();
-		return null;
+		TravelClub newClub = new TravelClub(club.getName(), club.getIntro());
+		newClub.checkValidation();
+
+		return clubStore.create(newClub);
 	}
 
 	@Override

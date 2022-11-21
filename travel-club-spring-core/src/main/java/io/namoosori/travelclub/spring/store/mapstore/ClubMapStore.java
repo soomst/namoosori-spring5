@@ -6,9 +6,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Repository;
+
 import io.namoosori.travelclub.spring.aggregate.club.TravelClub;
 import io.namoosori.travelclub.spring.store.ClubStore;
 
+@Repository("clubStore")
 public class ClubMapStore implements ClubStore{
 
     private Map<String, TravelClub> clubMap;
