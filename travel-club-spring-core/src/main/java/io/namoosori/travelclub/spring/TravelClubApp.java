@@ -6,8 +6,11 @@ import java.util.Date;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import io.namoosori.travelclub.spring.aggregate.club.CommunityMember;
 import io.namoosori.travelclub.spring.aggregate.club.TravelClub;
 import io.namoosori.travelclub.spring.service.ClubService;
+import io.namoosori.travelclub.spring.service.MemberService;
+import io.namoosori.travelclub.spring.service.sdo.MemberCdo;
 import io.namoosori.travelclub.spring.service.sdo.TravelClubCdo;
 import io.namoosori.travelclub.spring.shared.NameValueList;
 
@@ -23,6 +26,7 @@ public class TravelClubApp {
 
         TravelClubCdo clubCdo = new TravelClubCdo("TravelClub", "Test TravelClub");
         ClubService clubService = context.getBean("clubService", ClubService.class);
+        MemberService memberService = context.getBean("memberService", MemberService.class);
 
         String clubId = clubService.registerClub(clubCdo);
         TravelClub foundedClub = clubService.findClubById(clubId);
@@ -30,5 +34,16 @@ public class TravelClubApp {
         System.out.println("foundedClub Name : " + foundedClub.getName());
         System.out.println("foundedClub Intro : " + foundedClub.getIntro());
         System.out.println("foundedClub foundationTime : " + new Date(foundedClub.getFoundationTime()));
+
+        String memberId = memberService.registerMember(
+            new MemberCdo("test@test.com", "SOOM", "TestMember", "010-1111-2222", "2022.11.21")
+        );
+        CommunityMember fCommunityMember = memberService.findMemberById(memberId);
+
+        System.out.println("fCommunityMember email : " + fCommunityMember.getEmail());
+        System.out.println("fCommunityMember name : " + fCommunityMember.getName());
+        System.out.println("fCommunityMember nickName : " + fCommunityMember.getNickName());
+        System.out.println("fCommunityMember phoneNumber : " + fCommunityMember.getPhoneNumber());
+        System.out.println("fCommunityMember birthday : " + fCommunityMember.getBirthDay());
     }
 }
