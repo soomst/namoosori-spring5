@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,6 +18,7 @@ import io.namoosori.travelclub.web.service.sdo.TravelClubCdo;
 import io.namoosori.travelclub.web.shared.NameValueList;
 
 @RestController
+@RequestMapping("/club")
 public class ClubController {
     
     private ClubService clubService;
@@ -25,32 +27,32 @@ public class ClubController {
         this.clubService = clubService;
     }
  
-    @PostMapping("/club")
+    @PostMapping //localhost:8090/club
     public String register(@RequestBody TravelClubCdo travelClubCdo) {
         return clubService.registerClub(travelClubCdo);
     }
 
-    @GetMapping("/club/all")
+    @GetMapping("/all")
     public List<TravelClub> findAll() {
         return clubService.findAll();
     }
 
-    @GetMapping("/club/{clubId}") //localhost:8090/club/clubId값
+    @GetMapping("/{clubId}") //localhost:8090/club/clubId값
     public TravelClub find(@PathVariable String clubId) {
         return clubService.findClubById(clubId);
     }
 
-    @GetMapping("/club")  //localhost:8090/club?name=JavaClub
+    @GetMapping  //localhost:8090/club?name=JavaClub
     public List<TravelClub> findByName(@RequestParam String name) {
         return clubService.findClubsByName(name);
     }
 
-    @PutMapping("/club/{clubId}")
+    @PutMapping("/{clubId}")
     public void modify(@PathVariable String clubId, @RequestBody NameValueList nameValueList) {
         clubService.modify(clubId, nameValueList);
     }
 
-    @DeleteMapping("/club/{clubId}")
+    @DeleteMapping("/{clubId}")
     public void delete (@PathVariable String clubId) {
         clubService.remove(clubId);
     }
